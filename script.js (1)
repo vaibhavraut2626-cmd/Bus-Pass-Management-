@@ -1,0 +1,249 @@
+// ========================================
+// BUS PASS GENERATION
+// ========================================
+
+document
+    .getElementById("passForm")
+    .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+
+        // Get Student Details
+
+        let name =
+            document.getElementById("studentName").value;
+
+        let roll =
+            document.getElementById("rollNo").value;
+
+        let mobile =
+            document.getElementById("mobile").value;
+
+        let college =
+            document.getElementById("college").value;
+
+        let startPoint =
+            document.getElementById("startPoint").value;
+
+        let destination =
+            document.getElementById("destination").value;
+
+        let passType =
+            document.getElementById("passType").value;
+
+        let startDate =
+            document.getElementById("startDate").value;
+
+
+        // Mobile Validation
+
+        if (!/^[0-9]{10}$/.test(mobile)) {
+
+            alert("Please enter a valid 10 digit mobile number.");
+
+            return;
+        }
+
+
+        // Generate Pass ID
+
+        let passId =
+            "BP" +
+            Math.floor(
+                10000 + Math.random() * 90000
+            );
+
+
+        // Calculate Validity
+
+        let start =
+            new Date(startDate);
+
+        let end =
+            new Date(start);
+
+
+        if (passType === "Monthly") {
+
+            end.setMonth(
+                end.getMonth() + 1
+            );
+
+        }
+
+        else if (passType === "Quarterly") {
+
+            end.setMonth(
+                end.getMonth() + 3
+            );
+
+        }
+
+        else if (passType === "Yearly") {
+
+            end.setFullYear(
+                end.getFullYear() + 1
+            );
+        }
+
+
+        // Display Pass Details
+
+        document.getElementById("passId")
+            .textContent = passId;
+
+        document.getElementById("displayName")
+            .textContent = name;
+
+        document.getElementById("displayRoll")
+            .textContent = roll;
+
+        document.getElementById("displayMobile")
+            .textContent = mobile;
+
+        document.getElementById("displayCollege")
+            .textContent = college;
+
+        document.getElementById("displayRoute")
+            .textContent =
+            startPoint + " → " + destination;
+
+        document.getElementById("displayType")
+            .textContent = passType;
+
+        document.getElementById("displayStart")
+            .textContent = formatDate(start);
+
+        document.getElementById("displayEnd")
+            .textContent = formatDate(end);
+
+
+        // ========================================
+        // QR CODE
+        // ========================================
+
+        document.getElementById("qrcode")
+            .innerHTML = "";
+
+
+        new QRCode(
+            document.getElementById("qrcode"),
+            {
+                text: passId,
+                width: 120,
+                height: 120
+            }
+        );
+
+
+        // ========================================
+        // SAVE PASS ID
+        // ========================================
+
+        localStorage.setItem(
+            "busPassId",
+            passId
+        );
+
+
+        // ========================================
+        // SHOW DIGITAL PASS
+        // ========================================
+
+        document.getElementById("digitalPass")
+            .style.display = "block";
+
+
+        // Scroll to Pass
+
+        document.getElementById("digitalPass")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+});
+
+
+// ========================================
+// DATE FORMAT
+// ========================================
+
+function formatDate(date) {
+
+    let day =
+        String(date.getDate())
+        .padStart(2, "0");
+
+    let month =
+        String(date.getMonth() + 1)
+        .padStart(2, "0");
+
+    let year =
+        date.getFullYear();
+
+    return day + "/" + month + "/" + year;
+}
+
+
+// ========================================
+// APPLY BUTTON
+// ========================================
+
+function showApplication() {
+
+    document.getElementById("apply")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+}
+
+
+// ========================================
+// PASS VERIFICATION
+// ========================================
+
+function verifyPass() {
+
+    let enteredId =
+        document.getElementById("verifyPassId")
+        .value
+        .trim();
+
+    let savedId =
+        localStorage.getItem("busPassId");
+
+    let result =
+        document.getElementById(
+            "verificationResult"
+        );
+
+
+    if (enteredId === "") {
+
+        result.innerHTML =
+            "⚠️ Please enter Pass ID.";
+
+        result.style.color = "orange";
+
+        return;
+    }
+
+
+    if (enteredId === savedId) {
+
+        result.innerHTML =
+            "✅ PASS VERIFIED — VALID";
+
+        result.style.color = "green";
+
+    }
+
+    else {
+
+        result.innerHTML =
+            "❌ INVALID PASS ID";
+
+        result.style.color = "red";
+    }
+}

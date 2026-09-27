@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bus Pass Management System</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="logo">
+            🚌 BusPass
+        </div>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#apply">Apply Pass</a>
+            <a href="#verify">Verify</a>
+            <a href="#about">About</a>
+        </div>
+
+    </nav>
+
+
+    <!-- HOME -->
+    <section id="home" class="hero">
+
+        <div class="hero-content">
+
+            <div class="bus-icon">🚌</div>
+
+            <h1>Bus Pass Management System</h1>
+
+            <p>
+                Easy and Fast College Bus Pass Management
+            </p>
+
+            <button onclick="showApplication()">
+                Apply for Bus Pass
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- APPLICATION FORM -->
+    <section id="apply" class="application">
+
+        <h2>🎓 Student Bus Pass Application</h2>
+
+        <form id="passForm">
+
+            <label>Student Name</label>
+
+            <input
+                type="text"
+                id="studentName"
+                placeholder="Enter student name"
+                required
+            >
+
+
+            <label>Roll Number</label>
+
+            <input
+                type="text"
+                id="rollNo"
+                placeholder="Enter roll number"
+                required
+            >
+
+
+            <label>Mobile Number</label>
+
+            <input
+                type="tel"
+                id="mobile"
+                placeholder="Enter 10 digit mobile number"
+                maxlength="10"
+                required
+            >
+
+
+            <label>College Name</label>
+
+            <input
+                type="text"
+                id="college"
+                placeholder="Enter college name"
+                required
+            >
+
+
+            <label>Starting Point</label>
+
+            <input
+                type="text"
+                id="startPoint"
+                placeholder="Enter starting point"
+                required
+            >
+
+
+            <label>Destination</label>
+
+            <input
+                type="text"
+                id="destination"
+                placeholder="Enter destination"
+                required
+            >
+
+
+            <label>Pass Type</label>
+
+            <select id="passType" required>
+
+                <option value="">
+                    Select Pass Type
+                </option>
+
+                <option value="Monthly">
+                    Monthly
+                </option>
+
+                <option value="Quarterly">
+                    Quarterly
+                </option>
+
+                <option value="Yearly">
+                    Yearly
+                </option>
+
+            </select>
+
+
+            <label>Start Date</label>
+
+            <input
+                type="date"
+                id="startDate"
+                required
+            >
+
+
+            <button type="submit">
+                Generate Bus Pass
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- DIGITAL BUS PASS -->
+    <section id="digitalPass" class="digital-pass">
+
+        <h2>🎫 Your Digital Bus Pass</h2>
+
+        <div class="pass-card">
+
+            <div class="pass-header">
+                <h3>🚌 COLLEGE BUS PASS</h3>
+                <p>STUDENT TRANSPORT CARD</p>
+            </div>
+
+            <div class="pass-details">
+
+                <p>
+                    <strong>Pass ID:</strong>
+                    <span id="passId">---</span>
+                </p>
+
+                <p>
+                    <strong>Student Name:</strong>
+                    <span id="displayName">---</span>
+                </p>
+
+                <p>
+                    <strong>Roll No:</strong>
+                    <span id="displayRoll">---</span>
+                </p>
+
+                <p>
+                    <strong>Mobile:</strong>
+                    <span id="displayMobile">---</span>
+                </p>
+
+                <p>
+                    <strong>College:</strong>
+                    <span id="displayCollege">---</span>
+                </p>
+
+                <p>
+                    <strong>Route:</strong>
+                    <span id="displayRoute">---</span>
+                </p>
+
+                <p>
+                    <strong>Pass Type:</strong>
+                    <span id="displayType">---</span>
+                </p>
+
+                <p>
+                    <strong>Valid From:</strong>
+                    <span id="displayStart">---</span>
+                </p>
+
+                <p>
+                    <strong>Valid Till:</strong>
+                    <span id="displayEnd">---</span>
+                </p>
+
+            </div>
+
+
+            <!-- QR CODE -->
+
+            <div class="qr-section">
+
+                <p>
+                    <strong>Scan to Verify</strong>
+                </p>
+
+                <div id="qrcode"></div>
+
+            </div>
+
+
+            <div class="status">
+                ✓ ACTIVE
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- VERIFICATION -->
+
+    <section id="verify" class="verification">
+
+        <h2>🔍 Verify Bus Pass</h2>
+
+        <p>
+            Enter your Pass ID to check pass status.
+        </p>
+
+        <div class="verify-box">
+
+            <input
+                type="text"
+                id="verifyPassId"
+                placeholder="Enter Pass ID"
+            >
+
+            <button onclick="verifyPass()">
+                Verify Pass
+            </button>
+
+        </div>
+
+        <div id="verificationResult"></div>
+
+    </section>
+
+
+    <!-- ABOUT -->
+
+    <section id="about" class="about">
+
+        <h2>About Project</h2>
+
+        <p>
+            Bus Pass Management System is a frontend web application
+            designed to make the college bus pass application process
+            simple, fast and convenient.
+        </p>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 Bus Pass Management System
+        </p>
+
+        <p>
+            Developed by SY BCS Student
+        </p>
+
+    </footer>
+
+
+    <!-- QR CODE LIBRARY -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
